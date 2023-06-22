@@ -1,0 +1,164 @@
+#Mongo Prompt –
+>> mongosh –help
+>>mongoexport –help
+>>show db
+>>pwd – Print working directory
+>>cd 
+>> Dir 
+>>Use database_name – to open the database
+>>Cls – To clear the screen
+
+#To export a file from prompt in JSON format- 
+>> uri stands for Uniform resource identifier – mongodb+srv://user:password@<cluster>.mongodb.net/database
+>> mongoexport --uri=’’ ” --collection=  --out=
+Ex-
+>> mongoexport --uri=”mongodb+srv://admin1:admin1@mongocv1.pjvp0jb.mongodb.net/import_exportDB” --collection=import_data  --out=import_data.json
+
+#To import the JSON –
+>>mongoimport –uri=”” –collection= --file=
+Ex- 
+>> mongoimport --uri="mongodb+srv://admin1:admin1@mongocv1.pjvp0jb.mongodb.net/import_exportDB" --collection=import_data --file=import_data.json
+
+
+#To Import and export data in Binary JSON format – 
+>> Binary JSON is not human readable formant. 
+>> It is optimized for speed and performance.
+>> With the help of Binary JSON format, we can import or export the file and databases.
+
+
+#To export Binary JSON Database–
+>>mongodump –uri=”” 
+Ex-
+>> mongodump --uri="mongodb+srv://admin1:admin1@mongocv1.pjvp0jb.mongodb.net/import_exportDB"
+
+#To import the Binary JSON Database-
+>>mongorestore –uri”” folder_name/database_name
+Ex- 
+>> mongorestore --uri="mongodb+srv://admin1:admin1@mongocv1.pjvp0jb.mongodb.net/import_exportDB" dump/import_exportDB
+
+#Creating Database using Shell – 
+>> use database_name (Db name which you want to create)
+
+#To Create a collection-
+>>db.createCollection(“New_test_1”)
+
+#To Delete/Drop a collection –
+>>db.collection_name.drop()
+Ex-
+>>db.new_test_2.drop()
+
+#To Drop a Database-
+>>To drop a database we need to make sure that we are in the database which we are trying to delete.
+>>db.dropDatabase()
+
+#Find and findOne Method– 
+FindOne
+>>db.collection_name.findOne(optional_query, Projection)
+Ex-
+>>db.grades.findOne()
+Find-
+>>db.grades.find(optional_query, Projections)
+Ex-
+>>db.grades.findOne()
+>> The query will ask to type “it” to show more documents from the row.
+Ex-
+>>db.grades.find()
+Ex with conditions(Key,Value) Pair-
+>>db.grades.find({“class_id”:100})
+>>db.grades.find({“student_id”:01})
+
+Ex with multiple conditions(Key, Values)-
+>>db.grades.find({“student_id”:01, “class_id”:270})
+
+#Comparison OPERATORS – 
+>>$eq – Equals to
+>>$gt – greater than 
+>>$gte - greater than or equal to
+>>$in- Any value in the array
+>>$lt- less than
+>>$lte – less than or equal to
+>>$ne – Not equals to
+>>$lt = less than which is equivalent to Less than sign (“<”)
+>>{field:{operator:value}}
+Ex-
+>>{“salary”:{$lt:50000}})
+
+Logical Operators-
+>>$and
+Ex:
+>> db.trips.find({$and:[{"tripduration":{$gt:400}},{"birth year":{$gt:1988}}]})
+>>$or
+>>$nor
+>>$not
+
+$expr Operator:
+>>db.routes.find({$expr:{$eq:[“src_airport”,”dst_airport”]}})
+
+Element Operator
+>>$exists
+Ex:
+>>
+
+>>$type – It represents data types.
+-	Double : 1
+-	String : 2
+-	Null : 10
+Ex:
+>>
+
+#Cursor Method – 
+-	Count
+Ex:
+>>db.trips.find().count()
+>>db.trips.find({“tripduration”:{$gt:300}}).count()
+>>db.trips.find({“tripduration”:{$gt:300,$lt:400}}).count()
+
+
+-	Sort : (for Asce:1, For Desc:-1)
+ASC
+>>db.trips.find({“tripduration”:{$gt:300,$lt:400}}).sort({“tripduration”:1})
+DESC
+>> db.trips.find({“tripduration”:{$gt:300,$lt:400}}).sort({“tripduration”:1})
+Sorting with multiple conditions-
+>>db.trips.find().sort(“start station id”:1,”tripduration”:-1)
+
+
+-	Limit
+>>db.trips.find().limit(1)
+>>db.trips.find().limit(5)
+
+
+-	Skip
+
+
+-	Size
+>>db.trips.find().limit(5).size()
+
+Projection Method :
+>>db.comapnies.find({},{“name”:1,”founded_year”:1})
+>>db.comapnies.find({},{“name”:1,”founded_year”:1,”_id”:0})
+
+
+#Updating Documents : 
+>>updateOne – It will update only one document. 
+Ex:
+>>db.people.updateOne({"profession":"cook"},{$set:{"profession":"chef"}})
+
+
+>>updateMany – It will update all the relevant documents.
+Ex:
+>>db.people.updateMany({“profession”:”chef”},{$set:{“profession”:”cook”}})
+>>db.people.updateMany({"name":"Jess Raymond"},{$set:{"hobbies_list":["swimming","reading"]}})
+
+#UPDATE with OPERATORS 
+>>$set
+>>$unset
+>>$inc – To Increment the value
+>>$rename
+>>$push – To add element on arrays
+Ex:
+>>db.people.updateMany({"name":"Meera Patel"},{$push:{"hobbie":"travelling"}})
+Ex:
+>>db.people.updateMany({},{$unset:{“new_field”:””},$rename:{“hobbies_list”:”hobbies”}})
+>>db.people.updateMany({},{$inc:{"age":1}})
+>>db.people.updateMany({"name":"unknown"},{$set:{"age":23}},{upsert:true})
